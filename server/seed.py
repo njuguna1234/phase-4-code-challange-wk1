@@ -1,26 +1,29 @@
 from random import choice as rc
-
 from app import app
 from models import db, Hero, Power, HeroPower
 
 if __name__ == '__main__':
     with app.app_context():
         print("Clearing db...")
-        Power.query.delete()
-        Hero.query.delete()
+
+        # Clear the database tables
         HeroPower.query.delete()
+        Hero.query.delete()
+        Power.query.delete()
 
         print("Seeding powers...")
+        # Seeding Power instances
         powers = [
             Power(name="super strength", description="gives the wielder super-human strengths"),
             Power(name="flight", description="gives the wielder the ability to fly through the skies at supersonic speed"),
             Power(name="super human senses", description="allows the wielder to use her senses at a super-human level"),
             Power(name="elasticity", description="can stretch the human body to extreme lengths"),
         ]
-
         db.session.add_all(powers)
+        db.session.commit()
 
         print("Seeding heroes...")
+        # Seeding Hero instances
         heroes = [
             Hero(name="Kamala Khan", super_name="Ms. Marvel"),
             Hero(name="Doreen Green", super_name="Squirrel Girl"),
@@ -33,14 +36,15 @@ if __name__ == '__main__':
             Hero(name="Kitty Pryde", super_name="Shadowcat"),
             Hero(name="Elektra Natchios", super_name="Elektra"),
         ]
-
         db.session.add_all(heroes)
+        db.session.commit()
 
         print("Adding powers to heroes...")
+        # Seeding HeroPower instances by randomly assigning powers and strengths to heroes
         strengths = ["Strong", "Weak", "Average"]
         hero_powers = []
         for hero in heroes:
-            power = rc(powers)
+            power = rc(powers)  # Randomly choose a power
             hero_powers.append(
                 HeroPower(hero=hero, power=power, strength=rc(strengths))
             )

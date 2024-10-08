@@ -47,7 +47,7 @@ running:
 python server/app.py
 ```
 
-You can run your React app on [`localhost:4000`](http://localhost:4000) by
+You can run your React app on [`localhost:5555`](http://localhost:5555) by
 running:
 
 ```sh
